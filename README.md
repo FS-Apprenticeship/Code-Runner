@@ -1,23 +1,30 @@
-# vue-project
+# Code Runner
 
-This template should help get you started developing with Vue 3 in Vite.
+This prototype explores structured feedback loops — code evaluation, hint generation, and iterative improvement for beginners.
 
-## Recommended IDE Setup
+## Todo
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- [x] Initialize Pinia stores
+- [x] Write authentication backend
+- [ ] Create Supabase tables and set up attributes
+- [ ] Create backend functions to send and receive info from Supabase
 
-## Recommended Browser Setup
+- [ ] Connect OpenAI API and set up backend to communicate
+- [ ] Create examples to be used as part of prompting for challenges
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- [ ] Create NavBar
+- [ ] Create pages and add them to router
+  - [ ] Landing Page
+  - [ ] Sign In Page
+  - [ ] Sign Up Page
+  - [ ] Profile Page
+  - [ ] Choose Language / Topic Page
+  - [ ] Challenge Page with Code Editor
+  - [ ] Feedback/Results page
+- [ ] Add CodeMirror to project and set up a page for it [documentation](https://codemirror.net/examples/basic/)
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+- [ ] Ensure session persistence
+- [ ] Add router guards
 
 ## Project Setup
 
@@ -29,16 +36,4 @@ npm install
 
 ```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```
