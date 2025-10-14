@@ -1,10 +1,13 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
+
 import { defineStore } from "pinia";
 import { supa, dbSignIn, dbSignOut, dbSignUp } from "@/database/auth";
 
 export const useUserStore = defineStore("userStore", () => {
     const user = ref(null);
     const session = ref(null);
+
+    const isLoggedIn = computed(() => user.value != null);
 
     async function signUp(email, password) {
         const { data, error } = await dbSignUp(supa, email, password);
@@ -27,5 +30,5 @@ export const useUserStore = defineStore("userStore", () => {
         return true;
     }
 
-    return { user, session, signUp, signIn, signOut }
+    return { user, session, isLoggedIn, signUp, signIn, signOut }
 })
