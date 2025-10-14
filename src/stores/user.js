@@ -19,6 +19,7 @@ export const useUserStore = defineStore("userStore", () => {
         const { data, error } = await dbSignIn(supa, email, password);
         if (error) throw error;
         this.user.value = data.user;
+        console.log("checking id: ", this.user.value.id);
         this.session.value = data.session;
         return data;
     }
