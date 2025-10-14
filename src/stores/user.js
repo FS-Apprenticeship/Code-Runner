@@ -1,7 +1,7 @@
 import { ref, computed } from "vue";
 
 import { defineStore } from "pinia";
-import { supa, dbSignIn, dbSignOut, dbSignUp } from "@/database/auth";
+import { supa, dbSignIn, dbSignOut, dbSignUp } from "@/services/auth";
 
 export const useUserStore = defineStore("userStore", () => {
     const user = ref(null);
