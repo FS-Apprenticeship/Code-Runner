@@ -25,6 +25,8 @@ export const useUserStore = defineStore("userStore", () => {
 
     async function signOut() {
         const { error } = await dbSignOut(supa);
+        user.value = null;
+        session.value = null;
         if (error) throw error;
         // might not need to return anything here
         return true;
