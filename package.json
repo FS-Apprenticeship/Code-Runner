@@ -16,6 +16,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.75.0",
     "@tailwindcss/vite": "^4.1.14",
+    "openai": "^6.3.0",
     "pinia": "^3.0.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.14",
