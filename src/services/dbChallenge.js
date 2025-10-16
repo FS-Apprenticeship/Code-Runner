@@ -1,14 +1,14 @@
 
 //we can just use userStore to pass in the user_id here
 //since we can't access it from challengeStore
-export async function dbUploadChallenge(supa, user_id, prompt, difficulty_level, topic) {
+export async function dbUploadChallenge(supa, user_id, prompt, difficulty_level, topic, created) {
     if (difficulty_level > 3 || difficulty_level < 1) {
         throw new Error("Difficulty level is undefined");
     }
 
     const { data, error } = await supa
     .from('challenge')
-    .insert({ user_id: user_id, prompt: prompt, difficulty_level: difficulty_level, topic: topic })
+    .insert({ user_id: user_id, prompt: prompt, difficulty_level: difficulty_level, topic: topic, created: created })
     .select()
     if (error) throw error;
     return data[0]

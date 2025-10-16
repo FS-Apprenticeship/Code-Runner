@@ -10,6 +10,7 @@ export const useChallengeStore = defineStore("challenge", () => {
         id: null,
         user_id: null,
         prompt: null,
+        created: null,
         difficulty_level: null,
         topic: null,
         response: null,
@@ -20,7 +21,7 @@ export const useChallengeStore = defineStore("challenge", () => {
 
     // call these functions AFTER
     async function uploadChallenge() {
-        const data = await dbUploadChallenge(supa, challenge.value.user_id, challenge.value.prompt, challenge.value.difficulty_level, challenge.value.topic);
+        const data = await dbUploadChallenge(supa, challenge.value.user_id, challenge.value.prompt, challenge.value.difficulty_level, challenge.value.topic, challenge.value.created);
         challenge.value.id = data.id;
         console.log("checking challenge id ", challenge.value.id);
         return data;
@@ -55,6 +56,10 @@ export const useChallengeStore = defineStore("challenge", () => {
         challenge.value.difficulty_level = difficulty;
     }
 
+    function storeChallengeTime(time) {
+        challenge.value.created = time;
+    }
+
     function storeChallengeTopic(topic) {
         challenge.value.topic = topic;
     }
@@ -85,6 +90,7 @@ export const useChallengeStore = defineStore("challenge", () => {
         storeChallengePrompt,
         storeChallengeTopic,
         storeChallengeDifficulty, 
+        storeChallengeTime,
         storeChallengeResponse,
         storeChallengeSuccess, 
         storeChallengeTimeTaken, 
