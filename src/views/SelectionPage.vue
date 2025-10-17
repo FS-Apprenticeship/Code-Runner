@@ -7,22 +7,23 @@ const selectedLanguage = ref(null)
 const selectedTopic = ref(null)
 
 const languages = [
-  { id: 'javascript', name: 'JavaScript' },
-  { id: 'python', name: 'Python' },
+  "Javascript",
+  "Python",
 ]
 
-const topics = [
-  { id: 'arrays', name: 'Arrays & Lists' },
-  { id: 'loops', name: 'Loops & Iteration' },
-  { id: 'functions', name: 'Functions' },
-]
-
-const selectLanguage = (languageId) => {
-  selectedLanguage.value = languageId
+const selectLanguage = (language) => {
+  selectedLanguage.value = language
 }
 
-const selectTopic = (topicId) => {
-  selectedTopic.value = topicId
+const topics = [
+  "If Statements",
+  "Arithmetic",
+  "Functions",
+  "Loops",
+]
+
+const selectTopic = (topic) => {
+  selectedTopic.value = topic
 }
 
 const handleSubmit = () => {
@@ -55,17 +56,17 @@ const handleSubmit = () => {
             <!-- <div class="grid grid-cols-2 gap-5 max-w-2xl"> -->
               <button
                 v-for="language in languages"
-                :key="language.id"
-                @click="selectLanguage(language.id)"
+                :key="language"
+                @click="selectLanguage(language)"
                 :class="[
                   'px-6 py-4 rounded-lg font-medium transition-all',
                   'border-2',
-                  selectedLanguage === language.id
+                  selectedLanguage === language
                     ? 'bg-blue-600 border-blue-600 text-white'
                     : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600'
                 ]"
               >
-                {{ language.name }}
+                {{ language }}
               </button>
             </div>
           </div>
@@ -79,17 +80,17 @@ const handleSubmit = () => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
               <button
                 v-for="topic in topics"
-                :key="topic.id"
-                @click="selectTopic(topic.id)"
+                :key="topic"
+                @click="selectTopic(topic)"
                 :class="[
                   'px-6 py-4 rounded-lg font-medium transition-all',
                   'border-2',
-                  selectedTopic === topic.id
+                  selectedTopic === topic
                     ? 'bg-blue-600 border-blue-600 text-white'
                     : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600'
                 ]"
               >
-                {{ topic.name }}
+                {{ topic }}
               </button>
             </div>
           </div>
