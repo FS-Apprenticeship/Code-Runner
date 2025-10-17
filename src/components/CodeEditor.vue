@@ -45,11 +45,3 @@ watch(() => props.modelValue, (newVal) => {
 <template>
   <div ref="editor" class="h-full border rounded h-64 overflow-hidden" />
 </template>
-
-<!-- <style scoped>
-.cm-editor {
-  height: 100%;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-}
-</style> -->
