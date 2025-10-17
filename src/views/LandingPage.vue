@@ -1,5 +1,17 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue';
+import BaseButton from '@/components/BaseButton.vue';
+
+import router from '@/router';
+
+function signInHandler() {
+  router.push('/signin');
+}
+
+function signUpHandler() {
+  router.push('/signup');
+}
+
 </script>
 
 <template>
@@ -18,14 +30,8 @@ import NavBar from '@/components/NavBar.vue';
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <router-link to="/signin"
-            class="w-full sm:w-auto bg-white text-gray-950 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-            Sign In
-          </router-link>
-          <router-link to="/signup"
-            class="w-full sm:w-auto bg-gray-800 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-700 border border-gray-700 transition-colors">
-            Sign Up
-          </router-link>
+          <BaseButton variant="secondary" @click="signInHandler()">Sign In</BaseButton>
+          <BaseButton variant="secondary" @click="signUpHandler()">Sign Up</BaseButton>
         </div>
       </div>
     </main>
