@@ -1,31 +1,5 @@
 // examples to be used to create challenges
 
-export const ifStatementPython = [
-    easyIfStatementPython1,
-    easyIfStatementPython2,
-    mediumIfStatementPython1,
-    mediumIfStatementPython2,
-    hardIfStatementPython1,
-    hardIfStatementPython2
-];
-
-export const loopPython = [
-    easyLoopPython1,
-    easyLoopPython2,
-    mediumLoopPython1,
-    mediumLoopPython2,
-    hardLoopPython1,
-    hardLoopPython2
-]
-
-export const arithmeticPython = [
-    easyArithmeticPython1,
-    easyArithmeticPython2,
-    mediumArithmeticPython1,
-    mediumArithmeticPython2,
-    hardArithmeticPython1,
-    hardArithmeticPython2
-]
 
 const easyIfStatementPython1 = `Easy Level - Python Language - If Statements
 
@@ -196,55 +170,95 @@ return reversed_num`
 
 const easyArithmeticPython1 = `Easy Level - Python Language - Arithmetic
 
-Assume that you have two variables called a and b. Write code to return the sum of a and b.
+Assume that you have two variables, a and b. Write code to return their average.
 
 Solution:
-return a + b`
-
+return (a + b) / 2`
 
 const easyArithmeticPython2 = `Easy Level - Python Language - Arithmetic
 
-Assume that you have two variables called x and y. Write code to return the product of x and y.
+Assume that you have two variables, x and y. Write code to return the larger of the two numbers using an if statement.
 
 Solution:
-return x * y`
+if x > y:
+  return x
+else:
+  return y`
 
 
 const mediumArithmeticPython1 = `Medium Level - Python Language - Arithmetic
 
-Assume that you have three variables: a, b, and c. Write code to return the average of these three numbers.
+Assume that you have three variables: a, b, and c. Write code to find and return the smallest number among them using if statements.
 
 Solution:
-return (a + b + c) / 3`
+if a <= b and a <= c:
+  return a
+elif b <= a and b <= c:
+  return b
+else:
+  return c`
 
 
 const mediumArithmeticPython2 = `Medium Level - Python Language - Arithmetic
 
-Assume that you have a variable called radius. Write code to calculate and return the area of a circle using the formula πr². Assume π = 3.14.
+Assume that you have two variables, a and b. Write code to return "Divisible" if a is divisible by b, and "Not Divisible" otherwise.
 
 Solution:
-pi = 3.14
-return pi * (radius ** 2)`
+if b == 0:
+  return "Not Divisible"
+elif a % b == 0:
+  return "Divisible"
+else:
+  return "Not Divisible"`
 
 
 const hardArithmeticPython1 = `Hard Level - Python Language - Arithmetic
 
-Assume that you have two variables called principal and rate. Write code to calculate and return the simple interest for 5 years using the formula:
-Simple Interest = (principal * rate * time) / 100
-Use time = 5.
+Assume that you have three variables: a, b, and c. Write code to calculate and return the average of the two highest numbers.
 
 Solution:
-time = 5
-return (principal * rate * time) / 100`
+if a <= b and a <= c:
+  return (b + c) / 2
+elif b <= a and b <= c:
+  return (a + c) / 2
+else:
+  return (a + b) / 2`
 
 
 const hardArithmeticPython2 = `Hard Level - Python Language - Arithmetic
 
-Assume that you have two variables: num1 and num2. Write code to calculate and return the remainder when num1 is divided by num2. 
-If num2 is 0, return "Undefined" (since division by zero is not allowed).
+Assume that you have two variables, x and y. Write code to calculate the result of x divided by y. 
+If y is 0, return "Undefined" instead of performing the division.
 
 Solution:
-if num2 == 0:
+if y == 0:
   return "Undefined"
 else:
-  return num1 % num2`
+  return x / y`
+
+export const ifStatementPython = [
+    easyIfStatementPython1,
+    easyIfStatementPython2,
+    mediumIfStatementPython1,
+    mediumIfStatementPython2,
+    hardIfStatementPython1,
+    hardIfStatementPython2
+];
+
+export const loopPython = [
+    easyLoopPython1,
+    easyLoopPython2,
+    mediumLoopPython1,
+    mediumLoopPython2,
+    hardLoopPython1,
+    hardLoopPython2
+]
+
+export const arithmeticPython = [
+    easyArithmeticPython1,
+    easyArithmeticPython2,
+    mediumArithmeticPython1,
+    mediumArithmeticPython2,
+    hardArithmeticPython1,
+    hardArithmeticPython2
+]
