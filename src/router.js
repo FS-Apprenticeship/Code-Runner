@@ -14,8 +14,8 @@ const routes = [
   { path: '/', component: LandingPage },
   { path: '/signin', component: SigninPage },
   { path: '/signup', component: SignupPage },
-  { path: '/selection', component: SelectionPage},
-  { path: '/challenge', component: ChallengePage},
+  { path: '/selection', component: SelectionPage, meta: { requiresAuth: true } },
+  { path: '/challenge', component: ChallengePage, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({
@@ -27,7 +27,15 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore(pinia)
   const challengeStore = useChallengeStore(pinia)
-  next()
+  await userStore.loadUser()
+  if (to.meta.requiresAuth && !userStore.isLoggedIn) {
+    next('/signin')
+  } else {
+    if (userStore.isLoggedIn) {
+      console.log("filler")
+    }
+    next()
+  }
 })
 
 export default router

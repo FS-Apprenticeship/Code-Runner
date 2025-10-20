@@ -18,6 +18,17 @@ export const useUserStore = defineStore("userStore", () => {
 
     const isLoggedIn = computed(() => user.value != null);
 
+    async function loadUser() {
+        // const { data } = await supa.auth.getSession()
+        const { data } = await supa.auth.getUser()
+        this.user = data.user || null
+        if (this.user !== null) {
+            console.log("user already logged in")
+        } else {
+            console.log("user not logged in")
+        }
+    }
+
     async function signUp(email, password) {
         const { data, error } = await dbSignUp(supa, email, password);
         return { data, error };
@@ -57,5 +68,5 @@ export const useUserStore = defineStore("userStore", () => {
         return data;
     }
 
-    return { user, session, profile, isLoggedIn, signUp, signIn, signOut, uploadProfile }
+    return { user, session, profile, isLoggedIn, loadUser, signUp, signIn, signOut, uploadProfile }
 })
