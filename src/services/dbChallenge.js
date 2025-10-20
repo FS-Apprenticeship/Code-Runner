@@ -7,9 +7,9 @@ export async function dbUploadChallenge(supa, user_id, prompt, difficulty_level,
     }
 
     const { data, error } = await supa
-    .from('challenge')
-    .insert({ user_id: user_id, prompt: prompt, difficulty_level: difficulty_level, topic: topic, created: created, language: language })
-    .select()
+        .from('challenge')
+        .insert({ user_id: user_id, prompt: prompt, difficulty_level: difficulty_level, topic: topic, created: created, language: language })
+        .select()
     if (error) throw error;
     return data[0]
 }
@@ -17,18 +17,18 @@ export async function dbUploadChallenge(supa, user_id, prompt, difficulty_level,
 // get challenge id and other information from challengeStore
 export async function dbUploadChallengeResponse(supa, user_id, challenge_id, response) {
     const { data, error } = await supa
-    .from('response')
-    .insert({ user_id: user_id, challenge_id: challenge_id, response: response })
-    .select()
+        .from('response')
+        .insert({ user_id: user_id, challenge_id: challenge_id, response: response })
+        .select()
     if (error) throw error;
     return data[0]
 }
 
 export async function dbUploadChallengeResult(supa, challenge_id, success, feedback, time_taken) {
     const { data, error } = await supa
-    .from('challenge_result')
-    .insert({ challenge_id: challenge_id, successful: success, feedback: feedback, time_taken: time_taken })
-    .select()
+        .from('challenge_result')
+        .insert({ challenge_id: challenge_id, successful: success, feedback: feedback, time_taken: time_taken })
+        .select()
     if (error) throw error;
     return data[0]
 }

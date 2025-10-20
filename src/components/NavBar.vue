@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
 
@@ -8,12 +8,14 @@ const showSignOut = userStore.isLoggedIn;
 
 // helper function to actually sign the person out
 async function signOutHelper() {
-  userStore.logout()
+  userStore.logout();
 }
 </script>
 
 <template>
-  <nav class="bg-gray-900 border-b border-gray-800 text-white px-6 py-4 flex justify-between items-center">
+  <nav
+    class="bg-gray-900 border-b border-gray-800 text-white px-6 py-4 flex justify-between items-center"
+  >
     <div class="font-bold text-xl">My Todo App</div>
     <button
       v-if="showSignOut"
