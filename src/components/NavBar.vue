@@ -8,7 +8,7 @@ const showSignOut = userStore.isLoggedIn;
 
 // helper function to actually sign the person out
 async function signOutHelper() {
-  userStore.logout();
+  userStore.signOut();
 }
 </script>
 

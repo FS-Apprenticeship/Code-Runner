@@ -21,8 +21,9 @@ export async function dbSignUp(supa, email, password) {
     email,
     password,
   });
-  if (error) throw error;
-  return data;
+  return { data, error };
+  // if (error) throw error;
+  // return data;
 }
 
 export async function dbSignIn(client, email, password) {
@@ -30,11 +31,12 @@ export async function dbSignIn(client, email, password) {
     email,
     password,
   });
-  if (error) {
-    throw error;
-  }
-  // has session and user
-  return data;
+  return { data, error };
+  // if (error) {
+  //   throw error;
+  // }
+  // // has session and user
+  // return data;
 }
 
 export async function dbSignOut(client) {
