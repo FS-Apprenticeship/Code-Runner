@@ -48,6 +48,9 @@ const handleSubmit = async () => {
   const prompt = await challengeStore.aiCreateChallenge();
   challengeStore.challenge.prompt = prompt.text;
 
+  // upload challenge to db
+  challengeStore.uploadChallenge();
+
   // todo add routing
   router.push("/challenge");
 };
@@ -67,18 +70,13 @@ const handleSubmit = async () => {
           <div class="flex justify-center">
             <div class="grid grid-cols-2 gap-5 max-w-2xl">
               <!-- <div class="grid grid-cols-2 gap-5 max-w-2xl"> -->
-              <button
-                v-for="language in languages"
-                :key="language"
-                @click="selectLanguage(language)"
-                :class="[
-                  'px-6 py-4 rounded-lg font-medium transition-all',
-                  'border-2',
-                  selectedLanguage === language
-                    ? 'bg-blue-600 border-blue-600 text-white'
-                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600',
-                ]"
-              >
+              <button v-for="language in languages" :key="language" @click="selectLanguage(language)" :class="[
+                'px-6 py-4 rounded-lg font-medium transition-all',
+                'border-2',
+                selectedLanguage === language
+                  ? 'bg-blue-600 border-blue-600 text-white'
+                  : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600',
+              ]">
                 {{ language }}
               </button>
             </div>
@@ -93,18 +91,13 @@ const handleSubmit = async () => {
           <div class="flex justify-center">
             <!-- <div class="grid grid-cols-2 gap-4 max-w-2xl"> -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
-              <button
-                v-for="topic in topics"
-                :key="topic"
-                @click="selectTopic(topic)"
-                :class="[
-                  'px-6 py-4 rounded-lg font-medium transition-all',
-                  'border-2',
-                  selectedTopic === topic
-                    ? 'bg-blue-600 border-blue-600 text-white'
-                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600',
-                ]"
-              >
+              <button v-for="topic in topics" :key="topic" @click="selectTopic(topic)" :class="[
+                'px-6 py-4 rounded-lg font-medium transition-all',
+                'border-2',
+                selectedTopic === topic
+                  ? 'bg-blue-600 border-blue-600 text-white'
+                  : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600',
+              ]">
                 {{ topic }}
               </button>
             </div>
@@ -112,11 +105,7 @@ const handleSubmit = async () => {
         </div>
 
         <div class="flex justify-center pt-6">
-          <BaseButton
-            @click="handleSubmit"
-            :disabled="!selectedLanguage || !selectedTopic"
-            class="min-w-[200px]"
-          >
+          <BaseButton @click="handleSubmit" :disabled="!selectedLanguage || !selectedTopic" class="min-w-[200px]">
             Submit
           </BaseButton>
         </div>

@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 
 import { supa } from "@/services/auth";
 import { dbGetRecentDifficulty, dbUploadChallenge, dbUploadChallengeResponse, dbUploadChallengeResult } from "@/services/dbChallenge";
-import { createChallenge } from "@/services/openai";
+import { callCodeEvaluation, createChallenge } from "@/services/openai";
 
 // to create challenge, we need language, topic, difficulty
 
@@ -14,7 +14,7 @@ export const useChallengeStore = defineStore("challenge", () => {
         user_id: null,
         prompt: null,
         language: null,
-        created: null,
+        // created: null,
         difficulty_level: null,
         topic: null,
         response: null,
@@ -68,12 +68,36 @@ export const useChallengeStore = defineStore("challenge", () => {
         return data;
     }
 
+    async function aiEvaluteCode() {
+        if (challenge.response == null) {
+            return new Error("response not available");
+        }
+
+        const msg = `I am the student. I was given the following challenge to do in ${challenge.language}.
+        The topic was ${challenge.topic}. Here is the challenge:
+        ${challenge.prompt}
+        
+        In response, here is my answer to this challenge:
+        
+        ${challenge.response}
+        
+        Please evaluate my code, and tell me the following things:
+        
+        How much would you mark this out of 10?
+        Is this a successfull attempt? Yes or no.
+        Is there any feedback you can give me to improve on in the future?`;
+
+        const data = await callCodeEvaluation(msg);
+        return data;
+    }
+
     return {
         challenge,
         uploadChallenge,
         uploadChallengeResponse,
         uploadChallengeResult,
         getRecentDifficulty,
-        aiCreateChallenge
+        aiCreateChallenge,
+        aiEvaluteCode
     }
 })
