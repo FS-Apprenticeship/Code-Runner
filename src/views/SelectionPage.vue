@@ -46,7 +46,7 @@ const handleSubmit = async () => {
 
   // create prompt and load into challenge BEFORE we go to challenge page
   const prompt = await challengeStore.aiCreateChallenge();
-  challengeStore.prompt = prompt;
+  challengeStore.challenge.prompt = prompt.text;
 
   // todo add routing
   router.push("/challenge");

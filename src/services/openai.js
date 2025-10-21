@@ -9,8 +9,10 @@ export async function createChallenge(language, topic, difficulty) {
     Medium will be slightly more advanced, focusing on testing syntax and introducing a new layer to the topic.
     Hard will be testing the mastery the student has over this topic.
     
-    Make sure that you use clear language. 
-    Here is an example to help you create challenges for the student, but make the challenge different from examples:
+    Make sure that you use clear language. Don't worry about newlines.
+    The output should only include the challenge details. Assume the user knows the topic/language.
+    No need for a header.
+    Here are 2 examples to help you create challenges for the student, use the same format but make different challenges:
     
     `
 
