@@ -10,6 +10,7 @@ import SignupPage from './views/SignupPage.vue'
 import SelectionPage from './views/SelectionPage.vue'
 import ChallengePage from './views/ChallengePage.vue'
 import { syncStoreUsers } from './services/auth'
+import FeedbackPage from './views/FeedbackPage.vue'
 
 const routes = [
   { path: '/', component: LandingPage },
@@ -17,6 +18,7 @@ const routes = [
   { path: '/signup', component: SignupPage },
   { path: '/selection', component: SelectionPage, meta: { requiresAuth: true } },
   { path: '/challenge', component: ChallengePage, meta: { requiresAuth: true } },
+  { path: '/feedback', component: FeedbackPage }
 ]
 
 const router = createRouter({

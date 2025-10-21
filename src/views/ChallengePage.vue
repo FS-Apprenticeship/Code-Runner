@@ -3,6 +3,7 @@ import CodeMirrorEditor from "@/components/CodeEditor.vue";
 import { ref, computed } from "vue";
 import { marked } from "marked";
 import BaseButton from "@/components/BaseButton.vue";
+import router from "@/router";
 
 import { useChallengeStore } from "@/stores/challenge";
 
@@ -22,6 +23,8 @@ const handleSubmit = async () => {
   console.log("response uploaded to db")
   const resp = await challengeStore.aiEvaluteCode();
   console.log("evaluation: ", resp.text)
+  challengeStore.challenge.feedback = resp.text;
+  router.push('/feedback')
 }
 </script>
 
