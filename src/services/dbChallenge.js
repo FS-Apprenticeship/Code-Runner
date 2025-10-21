@@ -32,3 +32,10 @@ export async function dbUploadChallengeResult(supa, challenge_id, success, feedb
     if (error) throw error;
     return data[0]
 }
+
+export async function dbGetRecentDifficulty(supa, user_id) {
+    const { data, error } = await supa
+        .rpc('getrecentdifficultylevel', { p_user_id: user_id });
+    if (error) throw error;
+    return data;
+}

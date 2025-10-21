@@ -1,14 +1,18 @@
 <script setup>
+import { syncStoreUsers } from "@/services/auth";
+import { useChallengeStore } from "@/stores/challenge";
 import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
+const challengeStore = useChallengeStore();
 
 // function for WHEN to display the sign out button
 const showSignOut = userStore.isLoggedIn;
 
 // helper function to actually sign the person out
 async function signOutHelper() {
-  userStore.signOut();
+  await userStore.signOut();
+  syncStoreUsers(userStore, challengeStore);
 }
 </script>
 

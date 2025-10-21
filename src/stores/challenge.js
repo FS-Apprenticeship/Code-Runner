@@ -2,7 +2,10 @@ import { reactive } from "vue";
 import { defineStore } from "pinia";
 
 import { supa } from "@/services/auth";
-import { dbUploadChallenge, dbUploadChallengeResponse, dbUploadChallengeResult } from "@/services/dbChallenge";
+import { dbGetRecentDifficulty, dbUploadChallenge, dbUploadChallengeResponse, dbUploadChallengeResult } from "@/services/dbChallenge";
+import { createChallenge } from "@/services/openai";
+
+// to create challenge, we need language, topic, difficulty
 
 export const useChallengeStore = defineStore("challenge", () => {
     // this challenge stores only the current challenge with all properties
@@ -15,7 +18,7 @@ export const useChallengeStore = defineStore("challenge", () => {
         difficulty_level: null,
         topic: null,
         response: null,
-        success: null, 
+        success: null,
         time_taken: null,
         feedback: null,
     });
@@ -40,10 +43,37 @@ export const useChallengeStore = defineStore("challenge", () => {
         return data;
     }
 
+    async function getRecentDifficulty() {
+        const data = await dbGetRecentDifficulty(supa, challenge.user_id);
+        if (data === null) {
+            // console.log("recent is null, setting to 1")
+            return 1;
+        }
+        return data;
+    }
+
+    async function aiCreateChallenge() {
+        if (challenge.difficulty_level == null) {
+            return new Error("diff level not available")
+        }
+        if (challenge.language == null) {
+            return new Error("language not available")
+        }
+        if (challenge.topic == null) {
+            return new Error("topic not available")
+        }
+
+        const data = await createChallenge(challenge.language, challenge.topic, challenge.difficulty_level)
+        // challenge.prompt = data.text;
+        return data;
+    }
+
     return {
-        challenge, 
-        uploadChallenge, 
+        challenge,
+        uploadChallenge,
         uploadChallengeResponse,
         uploadChallengeResult,
+        getRecentDifficulty,
+        aiCreateChallenge
     }
 })

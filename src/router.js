@@ -9,6 +9,7 @@ import SigninPage from './views/SigninPage.vue'
 import SignupPage from './views/SignupPage.vue'
 import SelectionPage from './views/SelectionPage.vue'
 import ChallengePage from './views/ChallengePage.vue'
+import { syncStoreUsers } from './services/auth'
 
 const routes = [
   { path: '/', component: LandingPage },
@@ -28,6 +29,7 @@ router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore(pinia)
   const challengeStore = useChallengeStore(pinia)
   await userStore.loadUser()
+  syncStoreUsers(userStore, challengeStore);
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
     next('/signin')
   } else {

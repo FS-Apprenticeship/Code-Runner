@@ -1,4 +1,4 @@
-import { supa } from "../database/auth";
+import { supa } from "./auth";
 import { arithmeticPython, ifStatementPython, loopPython } from "./examples";
 
 export async function createChallenge(language, topic, difficulty) {

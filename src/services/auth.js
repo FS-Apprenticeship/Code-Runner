@@ -1,5 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
+// import { useUserStore } from "@/stores/user";
+// import { useChallengeStore } from "@/stores/challenge";
+
+// const userStore = useUserStore();
+// const challengeStore = useChallengeStore();
+
+export function syncStoreUsers(userStore, challengeStore) {
+  challengeStore.challenge.user_id = userStore.user?.id || null;
+}
+
 function getClient() {
   const url = import.meta.env.VITE_APP_SUPABASE_URL;
   const key = import.meta.env.VITE_APP_SUPABASE_KEY;

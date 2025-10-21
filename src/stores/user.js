@@ -41,7 +41,7 @@ export const useUserStore = defineStore("userStore", () => {
         if (error) throw error;
         this.user = data.user;
         this.profile.id = data.user.id;
-        console.log("checking id: ", this.user.id);
+        // console.log("checking id: ", this.user.id);
         this.session = data.session;
         router.push('/selection');
         // return { data, error };
