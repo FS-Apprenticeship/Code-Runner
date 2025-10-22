@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import NavBar from "@/components/NavBar.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
@@ -14,11 +14,6 @@ const selectedLanguage = ref(null);
 const selectedTopic = ref(null);
 const languages = ["Javascript", "Python"];
 const topics = ["If Statements", "Arithmetic", "Functions", "Loops"];
-let startTime = null;
-
-onMounted(() => {
-  startTime = Date.now();
-})
 
 const selectLanguage = (language) => {
   selectedLanguage.value = language;
@@ -41,18 +36,13 @@ const handleSubmit = async () => {
   });
   isLoading.value = true;
 
-  // store time taken on this page
-  const endTime = Date.now()
-  const timeElapsedMilli = endTime - startTime;
-  const timeElapsedSeconds = Math.round(timeElapsedMilli / 1000);
-  challengeStore.challenge.time_taken = timeElapsedSeconds;
-
   // store lang and topic
   challengeStore.challenge.language = selectedLanguage.value;
   challengeStore.challenge.topic = selectedTopic.value;
 
   // get recent difficulty level and store in challenge
   const diff = await challengeStore.getRecentDifficulty();
+  console.log("diff level getting: ", diff)
   challengeStore.challenge.difficulty_level = diff;
 
   // create prompt and load into challenge BEFORE we go to challenge page

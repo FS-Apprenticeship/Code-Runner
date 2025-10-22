@@ -1,6 +1,6 @@
 <script setup>
 import CodeMirrorEditor from "@/components/CodeEditor.vue";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { marked } from "marked";
 import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
@@ -8,6 +8,12 @@ import router from "@/router";
 import { useChallengeStore } from "@/stores/challenge";
 
 const challengeStore = useChallengeStore();
+
+let startTime = null;
+
+onMounted(() => {
+  startTime = Date.now();
+})
 
 // isLoading for button
 const isLoading = ref(false)
@@ -22,8 +28,15 @@ const code = ref(
 
 const handleSubmit = async () => {
   isLoading.value = true;
+
+  // store time taken on this page
+  const endTime = Date.now()
+  const timeElapsedMilli = endTime - startTime;
+  const timeElapsedSeconds = Math.round(timeElapsedMilli / 1000);
+  challengeStore.challenge.time_taken = timeElapsedSeconds;
+
   challengeStore.challenge.response = code.value;
-  const data = await challengeStore.uploadChallengeResponse();
+  await challengeStore.uploadChallengeResponse();
   const resp = await challengeStore.aiEvaluteCode();
   // resp contains score, successful, and feedback
   challengeStore.challenge.feedback = resp;

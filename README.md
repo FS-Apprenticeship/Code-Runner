@@ -5,9 +5,9 @@ This prototype explores structured feedback loops — code evaluation, hint gene
 ## Todo
 
 - [ ] Improve prompting for creating and evaluating prompt
-  - [ ] Use JSON to return evaluation
-  - [ ] Saving information to learner profiles now
-  - [ ] Getting difficulty from learner profile
+- [x] Use JSON to return evaluation
+- [x] Saving information to learner profiles now
+- [x] Getting difficulty from learner profile
 - [ ] Implement trying a new harder challenge
 - [ ] Implement trying a similar challenge to the one you just did
 - [x] Display challenge details on challenge page

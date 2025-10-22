@@ -1,27 +1,33 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import NavBar from '@/components/NavBar.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import router from '@/router';
 
+import { useUserStore } from '@/stores/user';
 import { useChallengeStore } from '@/stores/challenge';
+const userStore = useUserStore();
 const challengeStore = useChallengeStore();
 
 // isLoading for button
 const isLoading = ref(false)
-const score = ref(null)
-const successful = ref(null)
-const feedback = ref(null)
+
+// store the evaluation stats in database
+onMounted(async () => {
+    await challengeStore.uploadChallengeResult();
+    if (challengeStore.challenge.feedback.successful) {
+        await userStore.uploadProfile(challengeStore.challenge.difficulty_level + 1);
+    } else {
+        await userStore.uploadProfile(challengeStore.challenge.difficulty_level);
+    }
+})
 
 const feedbackText = computed(() => {
     if (challengeStore.challenge.feedback) {
-        score.value = challengeStore.challenge.feedback.score
-        successful.value = challengeStore.challenge.feedback.successful
-        feedback.value = challengeStore.challenge.feedback.feedback
         return `
-        Score : ${score.value} \n
-        Successful : ${successful.value} \n
-        Feedback : ${feedback.value}\n`
+        Score : ${challengeStore.challenge.feedback.score} \n
+        Successful : ${challengeStore.challenge.feedback.successful} \n
+        Feedback : ${challengeStore.challenge.feedback.feedback}\n`
     } else {
         return "Feedback is loading..."
     }
