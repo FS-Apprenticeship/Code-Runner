@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import NavBar from '@/components/NavBar.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import router from '@/router';
@@ -7,8 +7,9 @@ import router from '@/router';
 import { useChallengeStore } from '@/stores/challenge';
 const challengeStore = useChallengeStore();
 
-// Placeholder for OpenAI feedback text
-// const feedbackText = ref('Your feedback will appear here...');
+// isLoading for button
+const isLoading = ref(false)
+
 const feedbackText = computed(() => {
     return challengeStore.challenge.feedback || "Feedback is loading..."
 });
@@ -23,6 +24,7 @@ const handleRetrySimilar = () => {
 };
 
 const handleReturnToSelection = () => {
+    isLoading.value = true
     router.push('/selection')
 };
 </script>
@@ -45,15 +47,15 @@ const handleReturnToSelection = () => {
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <BaseButton @click="handleTryHarder" variant="primary">
+                    <BaseButton :loading="isLoading" @click="handleTryHarder" variant="primary">
                         Try Harder Challenge
                     </BaseButton>
 
-                    <BaseButton @click="handleRetrySimilar" variant="secondary">
+                    <BaseButton :loading="isLoading" @click="handleRetrySimilar" variant="secondary">
                         Retry Something Similar
                     </BaseButton>
 
-                    <BaseButton @click="handleReturnToSelection" variant="secondary">
+                    <BaseButton :loading="isLoading" @click="handleReturnToSelection" variant="secondary">
                         Return to Selection Page
                     </BaseButton>
                 </div>

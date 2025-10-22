@@ -83,8 +83,8 @@ export const useChallengeStore = defineStore("challenge", () => {
         
         Please evaluate my code, and tell me the following things:
         
-        How much would you mark this out of 10?
-        Is this a successfull attempt? Yes or no.
+        How much would you mark this out of 10? (newline)
+        Is this a successfull attempt? Yes or no. (newline)
         Is there any feedback you can give me to improve on in the future?`;
 
         const data = await callCodeEvaluation(msg);

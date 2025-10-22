@@ -9,6 +9,9 @@ import { useChallengeStore } from "@/stores/challenge";
 
 const challengeStore = useChallengeStore();
 
+// isLoading for button
+const isLoading = ref(false)
+
 const formattedPrompt = computed(() =>
   marked.parse(challengeStore.challenge.prompt || "")
 );
@@ -18,12 +21,14 @@ const code = ref(
 );
 
 const handleSubmit = async () => {
+  isLoading.value = true;
   challengeStore.challenge.response = code.value;
   const data = await challengeStore.uploadChallengeResponse();
-  console.log("response uploaded to db")
+  // console.log("response uploaded to db")
   const resp = await challengeStore.aiEvaluteCode();
-  console.log("evaluation: ", resp.text)
+  // console.log("evaluation: ", resp.text)
   challengeStore.challenge.feedback = resp.text;
+  isLoading.value = false;
   router.push('/feedback')
 }
 </script>
@@ -49,7 +54,7 @@ const handleSubmit = async () => {
         </div>
 
         <div class="absolute bottom-6 right-6">
-          <BaseButton @click="handleSubmit" class="bg-green-600 hover:bg-green-700 text-white">
+          <BaseButton :loading="isLoading" @click="handleSubmit" class="bg-green-600 hover:bg-green-700">
             Submit
           </BaseButton>
         </div>

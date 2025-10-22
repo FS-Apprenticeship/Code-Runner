@@ -10,6 +10,8 @@ import { useChallengeStore } from "@/stores/challenge";
 // const userStore = useUserStore();
 const challengeStore = useChallengeStore();
 
+const isLoading = ref(false)
+
 const selectedLanguage = ref(null);
 const selectedTopic = ref(null);
 
@@ -35,6 +37,7 @@ const handleSubmit = async () => {
     language: selectedLanguage.value,
     topic: selectedTopic.value,
   });
+  isLoading.value = true;
 
   // store lang and topic
   challengeStore.challenge.language = selectedLanguage.value;
@@ -50,6 +53,7 @@ const handleSubmit = async () => {
 
   // upload challenge to db
   challengeStore.uploadChallenge();
+  isLoading.value = false;
 
   // todo add routing
   router.push("/challenge");
@@ -105,7 +109,8 @@ const handleSubmit = async () => {
         </div>
 
         <div class="flex justify-center pt-6">
-          <BaseButton @click="handleSubmit" :disabled="!selectedLanguage || !selectedTopic" class="min-w-[200px]">
+          <BaseButton :loading="isLoading" @click="handleSubmit" :disabled="!selectedLanguage || !selectedTopic"
+            class="min-w-[200px]">
             Submit
           </BaseButton>
         </div>

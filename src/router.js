@@ -35,9 +35,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
     next('/signin')
   } else {
-    if (userStore.isLoggedIn) {
-      console.log("filler")
-    }
     next()
   }
 })
