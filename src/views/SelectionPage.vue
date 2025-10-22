@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import NavBar from "@/components/NavBar.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
@@ -9,19 +9,21 @@ import { useChallengeStore } from "@/stores/challenge";
 
 // const userStore = useUserStore();
 const challengeStore = useChallengeStore();
-
 const isLoading = ref(false)
-
 const selectedLanguage = ref(null);
 const selectedTopic = ref(null);
-
 const languages = ["Javascript", "Python"];
+const topics = ["If Statements", "Arithmetic", "Functions", "Loops"];
+let startTime = null;
+
+onMounted(() => {
+  startTime = Date.now();
+})
 
 const selectLanguage = (language) => {
   selectedLanguage.value = language;
 };
 
-const topics = ["If Statements", "Arithmetic", "Functions", "Loops"];
 
 const selectTopic = (topic) => {
   selectedTopic.value = topic;
@@ -38,6 +40,12 @@ const handleSubmit = async () => {
     topic: selectedTopic.value,
   });
   isLoading.value = true;
+
+  // store time taken on this page
+  const endTime = Date.now()
+  const timeElapsedMilli = endTime - startTime;
+  const timeElapsedSeconds = Math.round(timeElapsedMilli / 1000);
+  challengeStore.challenge.time_taken = timeElapsedSeconds;
 
   // store lang and topic
   challengeStore.challenge.language = selectedLanguage.value;

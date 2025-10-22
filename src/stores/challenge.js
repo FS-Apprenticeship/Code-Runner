@@ -22,6 +22,7 @@ export const useChallengeStore = defineStore("challenge", () => {
         time_taken: null,
         feedback: null,
     });
+    // success, feedback not stored
 
     // call these functions AFTER
     async function uploadChallenge() {
