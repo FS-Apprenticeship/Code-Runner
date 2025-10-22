@@ -9,11 +9,24 @@ const challengeStore = useChallengeStore();
 
 // isLoading for button
 const isLoading = ref(false)
+const score = ref(null)
+const successful = ref(null)
+const feedback = ref(null)
 
 const feedbackText = computed(() => {
-    return challengeStore.challenge.feedback || "Feedback is loading..."
+    if (challengeStore.challenge.feedback) {
+        score.value = challengeStore.challenge.feedback.score
+        successful.value = challengeStore.challenge.feedback.successful
+        feedback.value = challengeStore.challenge.feedback.feedback
+        return `
+        Score : ${score.value} \n
+        Successful : ${successful.value} \n
+        Feedback : ${feedback.value}\n`
+    } else {
+        return "Feedback is loading..."
+    }
+    // return challengeStore.challenge.feedback || "Feedback is loading..."
 });
-feedbackText.value = challengeStore.challenge.feedback;
 
 const handleTryHarder = () => {
     // TODO: Implement try harder challenge logic
@@ -40,7 +53,7 @@ const handleReturnToSelection = () => {
                     <h2 class="text-2xl font-bold text-white mb-4 text-center">
                         Feedback
                     </h2>
-                    <div class="text-gray-300 text-lg leading-relaxed">
+                    <div class="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
                         {{ feedbackText }}
                     </div>
                 </div>

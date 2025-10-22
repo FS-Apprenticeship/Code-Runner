@@ -79,7 +79,16 @@ export async function createChallenge(language, topic, difficulty) {
 export async function callCodeEvaluation(msg) {
     const instructions = `You are an instructor for a coding class teaching basic fundamentals.
     You will be given the challenge prompt and its details, as well as a response from the student. You have to evaluate the code response
-    and give feedback.`
+    and give feedback.
+    
+    You MUST return the evaluation in json format.
+    Example:
+    
+    {
+      score: 9,
+      successful: true,
+      feedback: "This was a good attempt and the thought process was in the right direction, however the syntax had an error at line 8 ... (more feedback)",
+    }`
     const prompt = [
         {
             role: "user",

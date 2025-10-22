@@ -89,7 +89,7 @@ export const useChallengeStore = defineStore("challenge", () => {
         Is there any feedback you can give me to improve on in the future?`;
 
         const data = await callCodeEvaluation(msg);
-        return data;
+        return JSON.parse(data.text);
     }
 
     return {

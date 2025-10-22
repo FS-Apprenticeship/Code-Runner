@@ -24,10 +24,9 @@ const handleSubmit = async () => {
   isLoading.value = true;
   challengeStore.challenge.response = code.value;
   const data = await challengeStore.uploadChallengeResponse();
-  // console.log("response uploaded to db")
   const resp = await challengeStore.aiEvaluteCode();
-  // console.log("evaluation: ", resp.text)
-  challengeStore.challenge.feedback = resp.text;
+  // resp contains score, successful, and feedback
+  challengeStore.challenge.feedback = resp;
   isLoading.value = false;
   router.push('/feedback')
 }
