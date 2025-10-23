@@ -42,8 +42,7 @@ const handleSubmit = async () => {
 
   // get recent difficulty level and store in challenge
   const diff = await challengeStore.getRecentDifficulty();
-  console.log("diff level getting: ", diff)
-  challengeStore.challenge.difficulty_level = diff;
+  challengeStore.challenge.difficulty_level = parseInt(diff);
 
   // create prompt and load into challenge BEFORE we go to challenge page
   const prompt = await challengeStore.aiCreateChallenge();
