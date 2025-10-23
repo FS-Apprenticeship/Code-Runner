@@ -5,6 +5,8 @@ This prototype explores structured feedback loops — code evaluation, hint gene
 ## Todo
 
 - [ ] Improve prompting for creating and evaluating prompt
+- [ ] Add animations/gifs to feedback page
+- [ ] Show response code and correct implementation on feedback page
 - [x] Use JSON to return evaluation
 - [x] Saving information to learner profiles now
 - [x] Getting difficulty from learner profile
