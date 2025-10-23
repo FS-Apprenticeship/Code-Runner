@@ -15,9 +15,15 @@ const isLoading = ref(false)
 // store the evaluation stats in database
 onMounted(async () => {
     await challengeStore.uploadChallengeResult();
-    if (challengeStore.challenge.feedback.successful) {
+    if (challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level < 3) {
+        // if successful and (1, 2) then make it +1
         await userStore.uploadProfile(challengeStore.challenge.difficulty_level + 1);
+    } else if (!challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level > 1) {
+        // not successful and (2, 3) then make it -1
+        await userStore.uploadProfile(challengeStore.challenge.difficulty_level - 1);
     } else {
+        // if unsuccessful and 1 keep it same
+        // if successful and 3 keep it same
         await userStore.uploadProfile(challengeStore.challenge.difficulty_level);
     }
 })
