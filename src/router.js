@@ -9,13 +9,16 @@ import SigninPage from './views/SigninPage.vue'
 import SignupPage from './views/SignupPage.vue'
 import SelectionPage from './views/SelectionPage.vue'
 import ChallengePage from './views/ChallengePage.vue'
+import { syncStoreUsers } from './services/auth'
+import FeedbackPage from './views/FeedbackPage.vue'
 
 const routes = [
   { path: '/', component: LandingPage },
   { path: '/signin', component: SigninPage },
   { path: '/signup', component: SignupPage },
-  { path: '/selection', component: SelectionPage},
-  { path: '/challenge', component: ChallengePage},
+  { path: '/selection', component: SelectionPage, meta: { requiresAuth: true } },
+  { path: '/challenge', component: ChallengePage, meta: { requiresAuth: true } },
+  { path: '/feedback', component: FeedbackPage }
 ]
 
 const router = createRouter({
@@ -27,7 +30,13 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore(pinia)
   const challengeStore = useChallengeStore(pinia)
-  next()
+  await userStore.loadUser()
+  syncStoreUsers(userStore, challengeStore);
+  if (to.meta.requiresAuth && !userStore.isLoggedIn) {
+    next('/signin')
+  } else {
+    next()
+  }
 })
 
 export default router

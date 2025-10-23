@@ -1,5 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
+// import { useUserStore } from "@/stores/user";
+// import { useChallengeStore } from "@/stores/challenge";
+
+// const userStore = useUserStore();
+// const challengeStore = useChallengeStore();
+
+export function syncStoreUsers(userStore, challengeStore) {
+  challengeStore.challenge.user_id = userStore.user?.id || null;
+}
+
 function getClient() {
   const url = import.meta.env.VITE_APP_SUPABASE_URL;
   const key = import.meta.env.VITE_APP_SUPABASE_KEY;
@@ -21,8 +31,9 @@ export async function dbSignUp(supa, email, password) {
     email,
     password,
   });
-  if (error) throw error;
-  return data;
+  return { data, error };
+  // if (error) throw error;
+  // return data;
 }
 
 export async function dbSignIn(client, email, password) {
@@ -30,11 +41,12 @@ export async function dbSignIn(client, email, password) {
     email,
     password,
   });
-  if (error) {
-    throw error;
-  }
-  // has session and user
-  return data;
+  return { data, error };
+  // if (error) {
+  //   throw error;
+  // }
+  // // has session and user
+  // return data;
 }
 
 export async function dbSignOut(client) {

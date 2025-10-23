@@ -1,30 +1,15 @@
-export async function dbUploadLearnerProfile(
-  supa,
-  user_id,
-  difficulty,
-  average_time,
-  success_percentage,
-  completed
-) {
+export async function dbGetLearnerStats(supa, user_id) {
   const { data, error } = await supa
-    .from("learner_profile")
-    .insert({
-      user_id: user_id,
-      difficulty_level: difficulty,
-      average_time_taken: average_time,
-      success_percentage: success_percentage,
-      number_completed: completed,
-    })
-    .select();
+    .rpc('getlearnerstats', { p_user_id: user_id });
   if (error) throw error;
   return data[0];
 }
 
-export async function dbGetProfileStats(supa, user_id) {
-  const { data, error } = await supa.rpc("getLearnerStats", {
-    p_user_id: user_id,
-  });
-
+export async function dbUploadLearnerStats(supa, user_id, difficulty, avgTime, succPercentage, numCompleted) {
+  const { data, error } = await supa
+    .from('learner_profile')
+    .upsert({ user_id: user_id, average_time_taken: avgTime, difficulty_level: difficulty, success_percentage: succPercentage, number_completed: numCompleted })
+    .select()
   if (error) throw error;
   return data;
 }

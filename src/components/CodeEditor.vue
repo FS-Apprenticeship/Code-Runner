@@ -46,5 +46,5 @@ watch(
 </script>
 
 <template>
-  <div ref="editor" class="h-full border rounded h-64 overflow-hidden" />
+  <div ref="editor" class="border rounded h-150 overflow-auto" />
 </template>

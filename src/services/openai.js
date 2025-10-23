@@ -1,4 +1,4 @@
-import { supa } from "../database/auth";
+import { supa } from "./auth";
 import { arithmeticPython, ifStatementPython, loopPython } from "./examples";
 
 export async function createChallenge(language, topic, difficulty) {
@@ -9,8 +9,15 @@ export async function createChallenge(language, topic, difficulty) {
     Medium will be slightly more advanced, focusing on testing syntax and introducing a new layer to the topic.
     Hard will be testing the mastery the student has over this topic.
     
-    Make sure that you use clear language. 
-    Here is an example to help you create challenges for the student, but make the challenge different from examples:
+    Make sure that you use clear language. Output the challenge in the following format:
+
+    Language: [Language] \n
+    Topic: [Topic] \n
+    Details: [details] \n
+
+    Return the output in markdown format.
+
+    Here are 2 examples to help you create challenges for the student, use the same format but make different challenges:
     
     `
 
@@ -69,7 +76,29 @@ export async function createChallenge(language, topic, difficulty) {
 }
 
 // call this with const resp = await callCodeEvaluation(JSON.stringify({ prompt }))
-export async function callCodeEvaluation(prompt) {
+export async function callCodeEvaluation(msg) {
+    const instructions = `You are an instructor for a coding class teaching basic fundamentals.
+    You will be given the challenge prompt and its details, as well as a response from the student. You have to evaluate the code response
+    and give feedback.
+    
+    You MUST return the evaluation in json format.
+    Example:
+    
+    {
+      score: 9,
+      successful: true,
+      feedback: "This was a good attempt and the thought process was in the right direction, however the syntax had an error at line 8 ... (more feedback)",
+    }`
+    const prompt = [
+        {
+            role: "user",
+            content: msg
+        },
+        {
+            role: "developer",
+            content: instructions
+        }
+    ]
     const { data, error } = await supa.functions.invoke("code-evaluation", {
         body: { prompt },
     })

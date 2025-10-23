@@ -1,44 +1,61 @@
 <script setup>
-import { ref } from 'vue'
-import NavBar from '@/components/NavBar.vue'
-import BaseButton from '@/components/BaseButton.vue'
+import { ref } from "vue";
+import NavBar from "@/components/NavBar.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import router from "@/router";
 
-const selectedLanguage = ref(null)
-const selectedTopic = ref(null)
+import { useUserStore } from "@/stores/user";
+import { useChallengeStore } from "@/stores/challenge";
 
-const languages = [
-  "Javascript",
-  "Python",
-]
+// const userStore = useUserStore();
+const challengeStore = useChallengeStore();
+const isLoading = ref(false)
+const selectedLanguage = ref(null);
+const selectedTopic = ref(null);
+const languages = ["Javascript", "Python"];
+const topics = ["If Statements", "Arithmetic", "Functions", "Loops"];
 
 const selectLanguage = (language) => {
-  selectedLanguage.value = language
-}
+  selectedLanguage.value = language;
+};
 
-const topics = [
-  "If Statements",
-  "Arithmetic",
-  "Functions",
-  "Loops",
-]
 
 const selectTopic = (topic) => {
-  selectedTopic.value = topic
-}
+  selectedTopic.value = topic;
+};
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (!selectedLanguage.value || !selectedTopic.value) {
-    alert('Please select both a language and a topic')
+    alert("Please select both a language and a topic");
     return null;
   }
-  
-  console.log('Selected:', {
+
+  console.log("Selected:", {
     language: selectedLanguage.value,
-    topic: selectedTopic.value
-  })
-  
+    topic: selectedTopic.value,
+  });
+  isLoading.value = true;
+
+  // store lang and topic
+  challengeStore.challenge.language = selectedLanguage.value;
+  challengeStore.challenge.topic = selectedTopic.value;
+
+  // get recent difficulty level and store in challenge
+  const diff = await challengeStore.getRecentDifficulty();
+  console.log("diff level getting: ", diff)
+  challengeStore.challenge.difficulty_level = diff;
+
+  // create prompt and load into challenge BEFORE we go to challenge page
+  const prompt = await challengeStore.aiCreateChallenge();
+  challengeStore.challenge.prompt = prompt.text;
+
+  // upload challenge to db
+  challengeStore.uploadChallenge();
+  isLoading.value = false;
+
   // todo add routing
-}
+  router.push("/challenge");
+};
 </script>
 
 <template>
@@ -47,25 +64,21 @@ const handleSubmit = () => {
 
     <main class="flex-1 flex items-center justify-center px-6 py-12">
       <div class="max-w-4xl w-full space-y-12">
-        
         <!-- language sectiion-->
         <div class="space-y-6">
-          <h2 class="text-3xl font-bold text-white text-center">Choose Language</h2>
+          <h2 class="text-3xl font-bold text-white text-center">
+            Choose Language
+          </h2>
           <div class="flex justify-center">
             <div class="grid grid-cols-2 gap-5 max-w-2xl">
-            <!-- <div class="grid grid-cols-2 gap-5 max-w-2xl"> -->
-              <button
-                v-for="language in languages"
-                :key="language"
-                @click="selectLanguage(language)"
-                :class="[
-                  'px-6 py-4 rounded-lg font-medium transition-all',
-                  'border-2',
-                  selectedLanguage === language
-                    ? 'bg-blue-600 border-blue-600 text-white'
-                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600'
-                ]"
-              >
+              <!-- <div class="grid grid-cols-2 gap-5 max-w-2xl"> -->
+              <button v-for="language in languages" :key="language" @click="selectLanguage(language)" :class="[
+                'px-6 py-4 rounded-lg font-medium transition-all',
+                'border-2',
+                selectedLanguage === language
+                  ? 'bg-blue-600 border-blue-600 text-white'
+                  : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600',
+              ]">
                 {{ language }}
               </button>
             </div>
@@ -74,22 +87,19 @@ const handleSubmit = () => {
 
         <!-- topic section -->
         <div class="space-y-6">
-          <h2 class="text-3xl font-bold text-white text-center">Choose Topic</h2>
+          <h2 class="text-3xl font-bold text-white text-center">
+            Choose Topic
+          </h2>
           <div class="flex justify-center">
             <!-- <div class="grid grid-cols-2 gap-4 max-w-2xl"> -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
-              <button
-                v-for="topic in topics"
-                :key="topic"
-                @click="selectTopic(topic)"
-                :class="[
-                  'px-6 py-4 rounded-lg font-medium transition-all',
-                  'border-2',
-                  selectedTopic === topic
-                    ? 'bg-blue-600 border-blue-600 text-white'
-                    : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600'
-                ]"
-              >
+              <button v-for="topic in topics" :key="topic" @click="selectTopic(topic)" :class="[
+                'px-6 py-4 rounded-lg font-medium transition-all',
+                'border-2',
+                selectedTopic === topic
+                  ? 'bg-blue-600 border-blue-600 text-white'
+                  : 'bg-gray-800 border-gray-700 text-gray-300 hover:bg-gray-700 hover:border-gray-600',
+              ]">
                 {{ topic }}
               </button>
             </div>
@@ -97,15 +107,11 @@ const handleSubmit = () => {
         </div>
 
         <div class="flex justify-center pt-6">
-          <BaseButton 
-            @click="handleSubmit"
-            :disabled="!selectedLanguage || !selectedTopic"
-            class="min-w-[200px]"
-          >
+          <BaseButton :loading="isLoading" @click="handleSubmit" :disabled="!selectedLanguage || !selectedTopic"
+            class="min-w-[200px]">
             Submit
           </BaseButton>
         </div>
-
       </div>
     </main>
   </div>
