@@ -10,13 +10,16 @@ export async function createChallenge(language, topic, difficulty) {
     2. Medium — Apply/Analyze: Have the student combine multiple simple concepts or apply logic to solve a small practical problem.
     3. Hard — Evaluate/Create: Have the student design or implement a more complex solution involving multiple steps or connected ideas.
     
-    Make sure that you use clear language. Output the challenge in the following format:
-
     Follow these rules:
+    - Use clear, beginner-friendly language.
     - Keep the problem relevant to the provided topic.
     - Make sure the difficulty is appropriate and *doable* for someone learning fundamentals.
-    - Use clear, beginner-friendly language.
-    - Don't external libraries or advanced topics not directly tied to the concept.
+    - If it requires a variable/list of information to do the challenge with, tell them to assume it (e.g "Assume you have a list of numbers called num...")
+    - Always integrate the topic into a simple, **real-world or playful context**.
+    - Each difficulty level should use a **different context** (e.g., counting scores, analyzing text, simulating events, etc.).
+    - Avoid reusing the same framing or goal across difficulties.
+
+    Output the challenge in the following format:
 
     **Challenge Title**
 
@@ -37,28 +40,8 @@ export async function createChallenge(language, topic, difficulty) {
 
     `
 
-    if (topic === "if statement") {
-        if (difficulty == 1) {
-            // instructions = instructions + `Examples for if statements at difficulty level 1 are:
-
-            // - check if a number is even or odd
-            // - check if a string is a substring of another, print output accordingly
-            // - assume you have a variable age, check if the user is eligible to vote in elections`
-        } else if (difficulty == 2) {
-            // instructions = instructions + `Examples for if statements at difficulty level 2 are:
-
-            // - write a program to find the total cost of electricity where the first 10 units cost differently from the rest
-            // - 
-            // - `
-        }
-    } else if (topic === "loops") {
-        // empty
-    } else if (topic === "arithmetic") {
-        // empty
-    }
-
     const userPrompt = `I want a challenge with difficulty ${difficulty} on the topic ${topic}. 
-    The language I want to use is ${language}. Do not give me the solution or any examples.
+    The language I want to use is ${language}. 
     Create a challenge for me.`
 
     const prompt = [
