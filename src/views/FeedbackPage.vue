@@ -11,10 +11,17 @@ const challengeStore = useChallengeStore();
 
 // isLoading for button
 const isLoading = ref(false)
+const showCorrectCode = ref(false)
+const correctCode = ref("")
 
 // store the evaluation stats in database
 onMounted(async () => {
     await challengeStore.uploadChallengeResult();
+    showCorrectCode.value = !challengeStore.challenge.feedback.successful
+
+    // if unsuccessful, show correct code
+    correctCode.value = challengeStore.challenge.feedback.correctCode
+
     if (challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level < 3) {
         // if successful and (1, 2) then make it +1
         await userStore.uploadProfile(challengeStore.challenge.difficulty_level + 1);
@@ -67,6 +74,16 @@ const handleReturnToSelection = () => {
                     </h2>
                     <div class="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
                         {{ feedbackText }}
+                    </div>
+                </div>
+
+                <!-- show code if successful is false -->
+                <div v-if="showCorrectCode" class="bg-gray-900 border border-gray-700 rounded-lg p-8">
+                    <h3 class="text-xl font-bold text-white mb-4">
+                        Correct Implementation:
+                    </h3>
+                    <div class="bg-gray-950 border border-gray-800 rounded-lg p-4 max-h-96 overflow-y-auto">
+                        <pre class="text-sm"><code class="text-green-400 font-mono">{{ correctCode }}</code></pre>
                     </div>
                 </div>
 
