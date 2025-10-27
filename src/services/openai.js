@@ -68,13 +68,16 @@ export async function callCodeEvaluation(msg) {
     You will be given the challenge prompt and its details, as well as a response from the student. You have to evaluate the code response
     and give feedback.
     
+    If successful is true, return "Your implementation was correct" in correctCode.
+    if successful is false, return the correct implementation in correctCode.
+
     You MUST return the evaluation in json format.
     Example:
-    
     {
-      score: 9,
-      successful: true,
+      score: 4,
+      successful: false,
       feedback: "This was a good attempt and the thought process was in the right direction, however the syntax had an error at line 8 ... (more feedback)",
+      correctCode: "function exampleSolution() { \n console.log("This is a placeholder for the correct code"); \n return true; \n}"
     }`
     const prompt = [
         {
