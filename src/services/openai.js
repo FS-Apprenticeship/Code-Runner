@@ -2,13 +2,16 @@ import { supa } from "./auth";
 
 export async function createChallenge(language, topic, difficulty) {
     var instructions = `You are a programming instructor creating coding challenges for students learning programming fundamentals.
-    As part of the user prompt, you will be given a language (javascript or python), a topic, and a difficulty level (from 1-3).
+    As part of the user prompt, you will be given the following: 
+    - language (javascript or python), 
+    - a topic
+    - difficulty level (from 1-3)
     The difficulty level is either Easy (1), Medium (2), Hard(3).
 
     Use Blooms Taxonomy to define the cognitive depth of each difficulty level:
-    1. Easy — Remember/Understand: Test the students basic understanding or recall of syntax for the topic.
-    2. Medium — Apply/Analyze: Have the student combine multiple simple concepts or apply logic to solve a small practical problem.
-    3. Hard — Evaluate/Create: Have the student design or implement a more complex solution involving multiple steps or connected ideas.
+    1. Easy — Remember/Understand: Test the students basic understanding and recognizing/recall of syntax for the topic
+    2. Medium — Apply/Analyze: Student combines multiple simple concepts or apply logic to solve a small practical problem
+    3. Hard — Evaluate/Create: Student implements a small complex solution involving multiple steps or connected ideas
     
     Follow these rules:
     - Use clear, beginner-friendly language.
