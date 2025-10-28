@@ -1,60 +1,50 @@
 import { supa } from "./auth";
-import { arithmeticPython, ifStatementPython, loopPython } from "./examples";
 
 export async function createChallenge(language, topic, difficulty) {
-    var instructions = `You are a course instructor trying to teach students basic programming fundamentals.
-    As part of the user prompt, you will be given a language (javascript or python), a topic, and a difficulty level (from 1-3).
+    var instructions = `You are a programming instructor creating coding challenges for students learning programming fundamentals.
+    As part of the user prompt, you will be given the following: 
+    - language (javascript or python), 
+    - a topic
+    - difficulty level (from 1-3)
     The difficulty level is either Easy (1), Medium (2), Hard(3).
-    Easy level focuses on mostly syntax.
-    Medium will be slightly more advanced, focusing on testing syntax and introducing a new layer to the topic.
-    Hard will be testing the mastery the student has over this topic.
+
+    Use Blooms Taxonomy to define the cognitive depth of each difficulty level:
+    1. Easy — Remember/Understand: Test the students basic understanding and recognizing/recall of syntax for the topic
+    2. Medium — Apply/Analyze: Student combines multiple simple concepts or apply logic to solve a small practical problem
+    3. Hard — Evaluate/Create: Student implements a small complex solution involving multiple steps or connected ideas
     
-    Make sure that you use clear language. Output the challenge in the following format:
+    Follow these rules:
+    - Use clear, beginner-friendly language.
+    - Keep the problem relevant to the provided topic.
+    - Make sure the difficulty is appropriate and *doable* for someone learning fundamentals.
+    - If it requires a variable/list of information to do the challenge with, tell them to assume it (e.g "Assume you have a list of numbers called num...")
+    - Always integrate the topic into a simple, **real-world or playful context**.
+    - Each difficulty level should use a **different context** (e.g., counting scores, analyzing text, simulating events, etc.).
+    - Avoid reusing the same framing or goal across difficulties.
+
+    Output the challenge in the following format:
+
+    **Challenge Title**
 
     Language: [Language] \n
     Topic: [Topic] \n
-    Details: [details] \n
+
+    **Description**
+    A description of the problem they are trying to solve. Try to keep it around 3-5 lines. Can be shorter based on difficulty.
+
+    **Requirements**
+    List anywhere from 2-5 requirements for the challenge (can vary based on difficulty and challenge).
+
+    **Example Input/Output**
+    Example input: xyz \n
+    Example output: abc \n
 
     Return the output in markdown format.
 
-    Here are 2 examples to help you create challenges for the student, use the same format but make different challenges:
-    
     `
 
-    if (topic === "if statement" && language === "python") {
-        if (difficulty === 1) {
-            instructions = instructions + ifStatementPython[0] + "\n\n" + ifStatementPython[1] + "\n";
-        } else if (difficulty === 2) {
-            instructions = instructions + ifStatementPython[2] + "\n\n" + ifStatementPython[3] + "\n";
-        } else if (difficulty == 3) {
-            instructions = instructions + ifStatementPython[4] + "\n\n" + ifStatementPython[6] + "\n";
-        } else {
-            throw new Error("difficulty isnt defined");
-        }
-    } else if (topic === "loops" && language === "python") {
-        if (difficulty === 1) {
-            instructions = instructions + loopPython[0] + "\n\n" + loopPython[1] + "\n";
-        } else if (difficulty === 2) {
-            instructions = instructions + loopPython[2] + "\n\n" + loopPython[3] + "\n";
-        } else if (difficulty == 3) {
-            instructions = instructions + loopPython[4] + "\n\n" + loopPython[6] + "\n";
-        } else {
-            throw new Error("difficulty isnt defined");
-        }
-    } else if (topic === "arithmetic" && language === "python") {
-        if (difficulty === 1) {
-            instructions = instructions + arithmeticPython[0] + "\n\n" + arithmeticPython[1] + "\n";
-        } else if (difficulty === 2) {
-            instructions = instructions + arithmeticPython[2] + "\n\n" + arithmeticPython[3] + "\n";
-        } else if (difficulty == 3) {
-            instructions = instructions + arithmeticPython[4] + "\n\n" + arithmeticPython[6] + "\n";
-        } else {
-            throw new Error("difficulty isnt defined");
-        }
-    }
-
     const userPrompt = `I want a challenge with difficulty ${difficulty} on the topic ${topic}. 
-    The language I want to use is ${language}. Do not give me the solution or any examples.
+    The language I want to use is ${language}. 
     Create a challenge for me.`
 
     const prompt = [
@@ -81,13 +71,16 @@ export async function callCodeEvaluation(msg) {
     You will be given the challenge prompt and its details, as well as a response from the student. You have to evaluate the code response
     and give feedback.
     
+    If successful is true, return "Your implementation was correct" in correctCode.
+    if successful is false, return the correct implementation in correctCode.
+
     You MUST return the evaluation in json format.
     Example:
-    
     {
-      score: 9,
-      successful: true,
+      score: 4,
+      successful: false,
       feedback: "This was a good attempt and the thought process was in the right direction, however the syntax had an error at line 8 ... (more feedback)",
+      correctCode: "function exampleSolution() { \n console.log("This is a placeholder for the correct code"); \n return true; \n}"
     }`
     const prompt = [
         {
