@@ -13,6 +13,7 @@ const challengeStore = useChallengeStore();
 const isLoading = ref(false)
 const showCorrectCode = ref(false)
 const correctCode = ref("")
+const gif = ref("")
 
 // store the evaluation stats in database
 onMounted(async () => {
@@ -21,7 +22,35 @@ onMounted(async () => {
 
     // if unsuccessful, show correct code
     correctCode.value = challengeStore.challenge.feedback.correctCode
+
+    // get gif 
+    if (challengeStore.challenge.feedback.successful) {
+        gif.value = await getGif("success!")
+    } else {
+        gif.value = await getGif("failure")
+    }
 })
+
+async function getGif(query) {
+    const key = import.meta.env.VITE_APP_KLIPY_WEB;
+    try {
+        const response = await fetch(
+            `https://api.klipy.com/api/v1/${key}/gifs/search?q=${encodeURIComponent(query)}`,
+            { headers: { "Content-Type": "application/json" } }
+        );
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        const firstGif = result?.data?.data?.[0]?.file?.hd?.gif?.url;
+
+        if (!firstGif) throw new Error("No GIF found");
+        return firstGif;
+    } catch (err) {
+        console.error("Error fetching GIF:", err);
+        return null;
+    }
+}
 
 const feedbackText = computed(() => {
     if (challengeStore.challenge.feedback) {
@@ -107,6 +136,9 @@ const handleReturnToSelection = async () => {
                         Feedback
                     </h2>
                     <div class="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+                        <div class="flex flex-col items-center justify-center my-4">
+                            <img :src="gif" alt="GIF result" class="rounded-xl shadow-lg max-w-xs md:max-w-md" />
+                        </div>
                         {{ feedbackText }}
                     </div>
                 </div>
@@ -139,3 +171,16 @@ const handleReturnToSelection = async () => {
         </main>
     </div>
 </template>
+
+<style scoped>
+.gif-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.gif-image {
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+</style>
