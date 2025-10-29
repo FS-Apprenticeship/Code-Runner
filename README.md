@@ -4,15 +4,15 @@ This prototype explores structured feedback loops — code evaluation, hint gene
 
 ## Todo
 
-- [ ] Improve prompting for creating and evaluating prompt
-  - [ ] Use Bloom's Taxonomy to create better response
-- [ ] Add animations/gifs to feedback page
-- [ ] Show response code and correct implementation on feedback page
+- [x] Improve prompting for creating and evaluating prompt
+  - [x] Use Bloom's Taxonomy to create better response
+- [x] Add animations/gifs to feedback page
+- [x] Show response code and correct implementation on feedback page
 - [x] Use JSON to return evaluation
 - [x] Saving information to learner profiles now
 - [x] Getting difficulty from learner profile
-- [ ] Implement trying a new harder challenge
-- [ ] Implement trying a similar challenge to the one you just did
+- [x] Implement trying a new harder challenge
+- [x] Implement trying a similar challenge to the one you just did
 - [ ] Return error codes/simulated output before user submits the code
 - [x] Display challenge details on challenge page
 - [x] Fix Challenge Page UI elements
