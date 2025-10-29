@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-// import Navbar from "../components/NavBar.vue";
 import { useUserStore } from "@/stores/user";
 import { useChallengeStore } from "@/stores/challenge";
 import { syncStoreUsers } from "@/services/auth";
@@ -19,7 +18,6 @@ async function signInHelper() {
 
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-950">
-    <!-- <Navbar /> -->
     <div class="bg-gray-900 p-8 rounded-lg shadow-2xl w-full max-w-md border border-gray-800">
       <h2 class="text-3xl font-bold mb-8 text-center text-white">Sign In</h2>
       <form @submit.prevent="signInHelper()" class="flex flex-col space-y-5">
