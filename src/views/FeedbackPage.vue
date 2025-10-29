@@ -17,6 +17,11 @@ const gif = ref("")
 
 // store the evaluation stats in database
 onMounted(async () => {
+    // error handling, if challenge is null for some reason, redirect to selection page
+    if (challengeStore.challenge.feedback == null) {
+        router.push('/selection')
+    }
+
     await challengeStore.uploadChallengeResult();
     showCorrectCode.value = !challengeStore.challenge.feedback.successful
 
