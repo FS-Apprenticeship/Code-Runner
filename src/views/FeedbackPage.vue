@@ -21,18 +21,6 @@ onMounted(async () => {
 
     // if unsuccessful, show correct code
     correctCode.value = challengeStore.challenge.feedback.correctCode
-
-    if (challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level < 3) {
-        // if successful and (1, 2) then make it +1
-        await userStore.uploadProfile(challengeStore.challenge.difficulty_level + 1);
-    } else if (!challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level > 1) {
-        // not successful and (2, 3) then make it -1
-        await userStore.uploadProfile(challengeStore.challenge.difficulty_level - 1);
-    } else {
-        // if unsuccessful and 1 keep it same
-        // if successful and 3 keep it same
-        await userStore.uploadProfile(challengeStore.challenge.difficulty_level);
-    }
 })
 
 const feedbackText = computed(() => {
@@ -44,19 +32,65 @@ const feedbackText = computed(() => {
     } else {
         return "Feedback is loading..."
     }
-    // return challengeStore.challenge.feedback || "Feedback is loading..."
 });
 
-const handleTryHarder = () => {
-    // TODO: Implement try harder challenge logic
+const handleTryHarder = async () => {
+    if (challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level < 3) {
+        // if successful and (1, 2) then make it +1
+        await userStore.uploadProfile(challengeStore.challenge.difficulty_level + 1);
+    }
+    // reset challenge-specific items in object so we can create new challenge
+    // things remaining same: user_id, topic, language
+    challengeStore.challenge.feedback = null;
+    challengeStore.challenge.id = null;
+    challengeStore.challenge.prompt = null;
+    challengeStore.challenge.response = null;
+    challengeStore.challenge.time_taken = null;
+
+    // get difficulty level from db again
+    const diff = await challengeStore.getRecentDifficulty();
+    challengeStore.challenge.difficulty_level = diff;
+
+    const prompt = await challengeStore.aiCreateChallenge();
+    challengeStore.challenge.prompt = prompt.text;
+
+    challengeStore.uploadChallenge();
+    isLoading.value = false;
+
+    router.push("/challenge");
 };
 
-const handleRetrySimilar = () => {
-    // TODO: Implement retry similar challenge logic
+const handleRetrySimilar = async () => {
+    await userStore.uploadProfile(challengeStore.challenge.difficulty_level);
+
+    // reset challenge-specific items in object so we can create new challenge
+    // things remaining same: user_id, topic, language
+    challengeStore.challenge.feedback = null;
+    challengeStore.challenge.id = null;
+    challengeStore.challenge.prompt = null;
+    challengeStore.challenge.response = null;
+    challengeStore.challenge.time_taken = null;
+
+    // get difficulty level from db again
+    const diff = await challengeStore.getRecentDifficulty();
+    challengeStore.challenge.difficulty_level = diff;
+
+    const prompt = await challengeStore.aiCreateChallenge();
+    challengeStore.challenge.prompt = prompt.text;
+
+    challengeStore.uploadChallenge();
+    isLoading.value = false;
+
+    router.push("/challenge");
 };
 
-const handleReturnToSelection = () => {
+const handleReturnToSelection = async () => {
     isLoading.value = true
+    // we are not trying harder or similar difficulty here, so just decrement the difficulty
+    if (!challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level > 1) {
+        // not successful and (2, 3) then make it -1
+        await userStore.uploadProfile(challengeStore.challenge.difficulty_level - 1);
+    }
     router.push('/selection')
 };
 </script>

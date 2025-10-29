@@ -4,7 +4,6 @@ import NavBar from "@/components/NavBar.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
 
-import { useUserStore } from "@/stores/user";
 import { useChallengeStore } from "@/stores/challenge";
 
 // const userStore = useUserStore();
