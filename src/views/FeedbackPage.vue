@@ -49,7 +49,7 @@ const handleTryHarder = async () => {
 
     // get difficulty level from db again
     const diff = await challengeStore.getRecentDifficulty();
-    challengeStore.challenge.difficulty_level = diff;
+    challengeStore.challenge.difficulty_level = parseInt(diff);
 
     const prompt = await challengeStore.aiCreateChallenge();
     challengeStore.challenge.prompt = prompt.text;
@@ -73,7 +73,7 @@ const handleRetrySimilar = async () => {
 
     // get difficulty level from db again
     const diff = await challengeStore.getRecentDifficulty();
-    challengeStore.challenge.difficulty_level = diff;
+    challengeStore.challenge.difficulty_level = parseInt(diff);
 
     const prompt = await challengeStore.aiCreateChallenge();
     challengeStore.challenge.prompt = prompt.text;
