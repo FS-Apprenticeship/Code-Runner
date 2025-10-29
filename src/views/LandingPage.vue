@@ -1,8 +1,15 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue';
 import BaseButton from '@/components/BaseButton.vue';
-
+import { useUserStore } from '@/stores/user';
 import router from '@/router';
+
+const userStore = useUserStore();
+const isLoggedIn = userStore.isLoggedIn
+
+function goToSelection() {
+  router.push('/selection')
+}
 
 function signInHandler() {
   router.push('/signin');
@@ -32,6 +39,9 @@ function signUpHandler() {
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <BaseButton variant="secondary" @click="signInHandler()">Sign In</BaseButton>
           <BaseButton variant="secondary" @click="signUpHandler()">Sign Up</BaseButton>
+        </div>
+        <div v-if="isLoggedIn" class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <BaseButton variant="secondary" @click="goToSelection()">Selection Page</BaseButton>
         </div>
       </div>
     </main>
