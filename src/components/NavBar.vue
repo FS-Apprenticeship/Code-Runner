@@ -14,13 +14,15 @@ const showSignOut = userStore.isLoggedIn;
 async function signOutHelper() {
   await userStore.signOut();
   syncStoreUsers(userStore, challengeStore);
-  router.push('/')
+  router.push('/').then(() => {
+    window.location.reload();
+  });
 }
 </script>
 
 <template>
   <nav class="bg-gray-900 border-b border-gray-800 text-white px-6 py-4 flex justify-between items-center">
-    <div class="font-bold text-xl">My Todo App</div>
+    <div class="font-bold text-xl">Code Runner - Flatiron School</div>
     <button v-if="showSignOut" @click="signOutHelper()"
       class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 border border-gray-700 transition-colors font-medium">
       Sign Out
