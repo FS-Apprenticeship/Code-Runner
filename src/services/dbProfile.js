@@ -1,3 +1,7 @@
+// This file contains functions to interact directly with the supabase tables for this project
+// These functions are never used directly in .vue files
+// Imported into useUserStore and useChallengeStore to be used
+
 export async function dbGetLearnerStats(supa, user_id) {
   const { data, error } = await supa
     .rpc('getlearnerstats', { p_user_id: user_id });

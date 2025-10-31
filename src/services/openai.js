@@ -1,3 +1,6 @@
+// This file contains functions to call Supabase edge functions directly using supabase-js
+// These functions not used directly in .vue files, instead imported into useChallengeStore 
+
 import { supa } from "./auth";
 
 export async function createChallenge(language, topic, difficulty) {
@@ -65,7 +68,6 @@ export async function createChallenge(language, topic, difficulty) {
     return data;
 }
 
-// call this with const resp = await callCodeEvaluation(JSON.stringify({ prompt }))
 export async function callCodeEvaluation(msg) {
     const instructions = `You are an instructor for a coding class teaching basic fundamentals.
     You will be given the challenge prompt and its details, as well as a response from the student. You have to evaluate the code response

@@ -1,10 +1,8 @@
+// This file handles creating and exporting the supabase-js client used throughout the rest of the project
+// It also contains functions used to sign in/up/out.
+// These functions are imported into useUserStore and useChallengeStore, not used directly in .vue files
+
 import { createClient } from "@supabase/supabase-js";
-
-// import { useUserStore } from "@/stores/user";
-// import { useChallengeStore } from "@/stores/challenge";
-
-// const userStore = useUserStore();
-// const challengeStore = useChallengeStore();
 
 export function syncStoreUsers(userStore, challengeStore) {
   challengeStore.challenge.user_id = userStore.user?.id || null;
@@ -32,8 +30,6 @@ export async function dbSignUp(supa, email, password) {
     password,
   });
   return { data, error };
-  // if (error) throw error;
-  // return data;
 }
 
 export async function dbSignIn(client, email, password) {
@@ -42,11 +38,6 @@ export async function dbSignIn(client, email, password) {
     password,
   });
   return { data, error };
-  // if (error) {
-  //   throw error;
-  // }
-  // // has session and user
-  // return data;
 }
 
 export async function dbSignOut(client) {
@@ -55,13 +46,4 @@ export async function dbSignOut(client) {
     throw error;
   }
   return true;
-}
-
-// TODO: check later if we need this
-export async function getCurrentUser(client) {
-  const { data, error } = await client.auth.getUser();
-  if (error) {
-    throw error;
-  }
-  return data.user;
 }

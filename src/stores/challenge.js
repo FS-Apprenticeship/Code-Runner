@@ -1,3 +1,8 @@
+// useChallengeStore
+// Contains all challenge-related functions which CAN be used directly in .vue files
+// Handling challenge information as a reactive object (state) from which info can be pulled
+// Functions are exposed to .vue files with minimal input parameters required
+
 import { reactive } from "vue";
 import { defineStore } from "pinia";
 
@@ -7,6 +12,7 @@ import { callCodeEvaluation, createChallenge } from "@/services/openai";
 
 export const useChallengeStore = defineStore("challenge", () => {
     // this challenge stores only the current challenge with all properties
+    // TODO break this into challenge, challenge_response, challenge_result?
     const challenge = reactive({
         id: null,
         user_id: null,
@@ -16,24 +22,21 @@ export const useChallengeStore = defineStore("challenge", () => {
         topic: null,
         response: null,
         time_taken: null,
-        // feedback stores score, successful, feedback
+        // feedback stores { score, successful, feedback }
         feedback: null,
     });
 
-    // call these functions AFTER
     async function uploadChallenge() {
         const data = await dbUploadChallenge(supa, challenge.user_id, challenge.prompt, challenge.difficulty_level, challenge.topic, challenge.created, challenge.language);
         challenge.id = data.id;
         return data;
     }
 
-    // check if we need response id from here for later? not storing it right now
     async function uploadChallengeResponse() {
         const data = await dbUploadChallengeResponse(supa, challenge.user_id, challenge.id, challenge.response);
         return data;
     }
 
-    // check if we need response id from here for later? not storing it right now
     async function uploadChallengeResult() {
         const data = await dbUploadChallengeResult(supa, challenge.id, challenge.feedback.successful, challenge.feedback.feedback, challenge.time_taken, challenge.user_id);
         return data;
@@ -41,8 +44,8 @@ export const useChallengeStore = defineStore("challenge", () => {
 
     async function getRecentDifficulty() {
         const data = await dbGetRecentDifficulty(supa, challenge.user_id);
+        // if learner profile doesnt exist, start them with easy difficulty
         if (data === null) {
-            // console.log("recent is null, setting to 1")
             return 1;
         }
         return data;

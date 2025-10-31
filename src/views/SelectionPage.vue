@@ -43,15 +43,13 @@ const handleSubmit = async () => {
   const diff = await challengeStore.getRecentDifficulty();
   challengeStore.challenge.difficulty_level = parseInt(diff);
 
-  // create prompt and load into challenge BEFORE we go to challenge page
+  // creating challenge before we go to challenge page - faster ui
   const prompt = await challengeStore.aiCreateChallenge();
   challengeStore.challenge.prompt = prompt.text;
 
-  // upload challenge to db
   challengeStore.uploadChallenge();
   isLoading.value = false;
 
-  // todo add routing
   router.push("/challenge");
 };
 </script>
@@ -69,7 +67,6 @@ const handleSubmit = async () => {
           </h2>
           <div class="flex justify-center">
             <div class="grid grid-cols-2 gap-5 max-w-2xl">
-              <!-- <div class="grid grid-cols-2 gap-5 max-w-2xl"> -->
               <button v-for="language in languages" :key="language" @click="selectLanguage(language)" :class="[
                 'px-6 py-4 rounded-lg font-medium transition-all',
                 'border-2',
@@ -89,7 +86,6 @@ const handleSubmit = async () => {
             Choose Topic
           </h2>
           <div class="flex justify-center">
-            <!-- <div class="grid grid-cols-2 gap-4 max-w-2xl"> -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
               <button v-for="topic in topics" :key="topic" @click="selectTopic(topic)" :class="[
                 'px-6 py-4 rounded-lg font-medium transition-all',

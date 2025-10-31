@@ -70,7 +70,6 @@ const feedbackText = computed(() => {
 
 const handleTryHarder = async () => {
     if (challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level < 3) {
-        // if successful and (1, 2) then make it +1
         await userStore.uploadProfile(challengeStore.challenge.difficulty_level + 1);
     }
     // reset challenge-specific items in object so we can create new challenge
@@ -122,7 +121,6 @@ const handleReturnToSelection = async () => {
     isLoading.value = true
     // we are not trying harder or similar difficulty here, so just decrement the difficulty
     if (!challengeStore.challenge.feedback.successful && challengeStore.challenge.difficulty_level > 1) {
-        // not successful and (2, 3) then make it -1
         await userStore.uploadProfile(challengeStore.challenge.difficulty_level - 1);
     }
     router.push('/selection')

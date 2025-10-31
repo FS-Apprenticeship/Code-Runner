@@ -1,6 +1,7 @@
+// This file contains functions to interact directly with the supabase tables for this project
+// These functions are never used directly in .vue files
+// Imported into useUserStore and useChallengeStore to be used
 
-//we can just use userStore to pass in the user_id here
-//since we can't access it from challengeStore
 export async function dbUploadChallenge(supa, user_id, prompt, difficulty_level, topic, created, language) {
     if (difficulty_level > 3 || difficulty_level < 1) {
         throw new Error("Difficulty level is undefined");
